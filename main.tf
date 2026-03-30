@@ -16,9 +16,9 @@ variable "render_api_key" { type = string }
 variable "render_owner_id" { type = string }
 
 resource "render_web_service" "flask_app" {
-  name        = "flask-render-elvivas-2026" # Change le nom ici pour être sûr qu'il soit unique !
+  name        = "flask-render-jeangerard-final" # Un nom bien unique
   plan        = "free"
   region      = "oregon"
   runtime     = "docker"
-  repo_url    = "https://github.com/jeangerardepsi/atelier_render2026" 
+  repo_url    = "https://github.com/jeangerardepsi/atelier_render2026"
 }
