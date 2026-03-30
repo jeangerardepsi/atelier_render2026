@@ -1,26 +1,38 @@
-import os  # <--- N'oublie pas l'import tout en haut !
-from flask import Flask, jsonify
-
-app = Flask(__name__)
-
-@app.route("/")
-def hello():
-    return "Flask + Docker + GHCR + Terraform + Render"
-
-# --- ROUTE DE L'EXERCICE 1 ---
-@app.route("/info")
-def info():
-    return {
-        "app": "Flask Render",
-        "student": "Jean Gerard", 
-        "version": "v1"
+terraform {
+  required_providers {
+    render = {
+      source  = "render-oss/render"
+      version = ">= 1.7.0"
     }
+  }
+}
 
-# --- ROUTE DE L'EXERCICE 2 ---
-@app.route("/env")
-def env():
-    # os.getenv("ENV") va récupérer la valeur "production" injectée par Terraform
-    return {"env": os.getenv("ENV", "non défini")}
+provider "render" {
+  api_key  = var.render_api_key
+  owner_id = var.render_owner_id
+}
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)
+variable "github_actor" {
+  description = "GitHub username"
+  type        = string
+}
+
+resource "render_web_service" "flask_app" {
+  name   = "flask-render-iac-${var.github_actor}"
+  plan   = "free"
+  region = "frankfurt"
+
+  runtime_source = {
+    image = {
+      image_url = var.image_url
+      tag       = var.image_tag
+    }
+  }
+
+  env_vars = {
+    ENV = {
+      value = "production"
+    }
+  }
+}
+
