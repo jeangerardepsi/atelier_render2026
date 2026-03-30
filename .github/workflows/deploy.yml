@@ -4,15 +4,6 @@ on:
   push:
     branches: ["main"]
 
-deploy.yml
-4 Ko
-﻿
-name: CI/CD Render
-
-on:
-  push:
-    branches: ["main"]
-
 permissions:
   contents: read
   packages: write
@@ -113,5 +104,3 @@ jobs:
             -var="image_tag=${IMAGE_TAG}" \
             -var="github_actor=${ACTOR}"
         working-directory: terraform
-deploy.yml
-4 Ko
